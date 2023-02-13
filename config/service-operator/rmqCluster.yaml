@@ -1,0 +1,16 @@
+apiVersion: rabbitmq.com/v1beta1
+kind: RabbitmqCluster
+metadata:
+  annotations:
+    rabbitmq.com/topology-allowed-namespaces: '*'
+  name: rmq-where-for-dinner
+  namespace: rabbitmq-service-instances
+spec:
+  replicas: 1
+  imagePullSecrets:
+    - name: registries-credentials
+  resources:
+    requests:
+      cpu: 200m
+    limits:
+      cpu: 200m
