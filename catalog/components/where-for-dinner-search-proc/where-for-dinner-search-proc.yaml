@@ -11,3 +11,4 @@ spec:
   system: where-for-dinner
   dependsOn: 
     - resource:where-for-dinner-messaging
+    - component:where-for-dinner-search-proc

@@ -32,108 +32,104 @@ spec:
   definition: |
     openapi: 3.0.1
     info:
-      title: Where for Dinner Availability Service
-      description: Core Where For Dinner service for retrieving dining availability
-      version: 0.0.1
+      title: Where for Dinner Search Service
+      description: Core Where for Dinner service for submitting searches and parameters
     servers:
-    - url: https://where-for-dinner.cody.full.tanzu-azure-lab.winterfell.online/api/availability/
+    - url: https://where-for-dinner.cody.full.tanzu-azure-lab.winterfell.online/api/search/
       description: Generated server url
     tags:
-    - name: Availability REST API
-      description: Operations for retrieving dining availability
+    - name: Search Submission REST API
+      description: CRUD operations for submiting, retrieving, and deleting searches
     paths:
-      "/availability":
+      "/search":
         get:
           tags:
-          - availability-resource
-          summary: Get all availability across all searches
-          description: Returns all availability regardless of search name for a given
-            logged on user.  If a logged on user is not present, then a default principal
-            representing non logged on users is applied.
-          operationId: getAllAvailabilty
+          - search-resource
+          summary: Get all submitted searches
+          description: Returns all submitted searches for a given logged on user.  If
+            a logged on user is not present, then a default principal representing non
+            logged on users is applied.
+          operationId: getAllSearches
           responses:
             '200':
-              description: Returns all availability for a user or an empty list if no
-                availability is found.
+              description: Returns all searches for a user or an empty list if no search
+                are found.
               content:
                 "*/*":
                   schema:
                     type: array
                     items:
-                      "$ref": "#/components/schemas/Availability"
-      "/availability/{searchName}":
-        get:
+                      "$ref": "#/components/schemas/Search"
+        put:
           tags:
-          - availability-resource
-          summary: Get all availability for a given search name
-          description: Returns all availability for a search namd and logged on user.  If
-            a logged on user is not present, then a default principal representing non
-            logged on users is applied.
-          operationId: getSearchAvailabilty
+          - search-resource
+          summary: Submits a new search.
+          description: Submits a new search with a set of search parameters for a logged
+            on user.  If a logged on user is not present, then a default principal representing
+            non logged on users is applied.
+          operationId: addSearch
+          requestBody:
+            content:
+              application/json:
+                schema:
+                  "$ref": "#/components/schemas/Search"
+            required: true
+          responses:
+            '201':
+              description: The search was successfully submitted
+              content:
+                "*/*":
+                  schema:
+                    "$ref": "#/components/schemas/Search"
+            '400':
+              description: The search time window has already passed
+            '409':
+              description: A search with the same name for the calling user already exists
+      "/search/{id}":
+        delete:
+          tags:
+          - search-resource
+          summary: Deletes submitted search.
+          description: Deletes an existing submitted search.  If a logged on user is not
+            present, then a default principal representing non logged on users is applied.
+          operationId: deleteSearch
           parameters:
-          - name: searchName
+          - name: id
             in: path
             required: true
             schema:
-              type: string
+              type: integer
+              format: int64
           responses:
             '200':
-              description: Returns all availability for a user and search name or an empty
-                list if no availability is found.
-              content:
-                "*/*":
-                  schema:
-                    type: array
-                    items:
-                      "$ref": "#/components/schemas/Availability"
-      "/availability/app/version":
-        get:
-          tags:
-          - availability-resource
-          summary: Get app version
-          description: Returns the version of the application
-          operationId: getAvailabilityAppVersion
-          responses:
-            '200':
-              description: Returns the version of the application
-              content:
-                "*/*":
-                  schema:
-                    type: string
+              description: The search was successfully deleted
     components:
       schemas:
-        Availability:
+        Search:
           type: object
           properties:
-            searchName:
+            id:
+              type: integer
+              format: int64
+            name:
               type: string
-            diningName:
-              type: string
-            address:
-              type: string
-            locality:
-              type: string
-            region:
-              type: string
-            postalCode:
-              type: string
-            phoneNumber:
-              type: string
-            reservationURL:
-              type: string
-            requestSubject:
-              type: string
-            availabilityWindows:
-              type: array
-              items:
-                "$ref": "#/components/schemas/AvailabilityWindow"
-        AvailabilityWindow:
-          type: object
-          properties:
             startTime:
               type: integer
               format: int64
             endTime:
               type: integer
               format: int64
+            diningTypes:
+              type: string
+            diningNames:
+              type: string
+            postalCode:
+              type: string
+            radius:
+              type: integer
+              format: int32
+            continousSearch:
+              type: boolean
+            requestSubject:
+              type: string
 

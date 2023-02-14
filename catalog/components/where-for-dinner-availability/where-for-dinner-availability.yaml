@@ -34,7 +34,6 @@ spec:
     info:
       title: Where for Dinner Availability Service
       description: Core Where For Dinner service for retrieving dining availability
-      version: 0.0.1
     servers:
     - url: https://where-for-dinner.cody.full.tanzu-azure-lab.winterfell.online/api/availability/
       description: Generated server url

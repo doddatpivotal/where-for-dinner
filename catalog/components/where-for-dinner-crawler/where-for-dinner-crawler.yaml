@@ -1,0 +1,11 @@
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: where-for-dinner-crawler
+  annotations:
+    "backstage.io/kubernetes-label-selector": "app.kubernetes.io/part-of=where-for-dinner-crawler"
+spec:
+  type: service
+  lifecycle: experimental
+  owner: where-for-dinner-team
+  system: where-for-dinner
