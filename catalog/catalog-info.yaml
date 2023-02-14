@@ -13,6 +13,7 @@ spec:
     - ./components/where-for-dinner-search-proc/where-for-dinner-search-proc.yaml
     - ./components/where-for-dinner-availability/where-for-dinner-availability.yaml
     - ./components/where-for-dinner-notify/where-for-dinner-notify.yaml
+    - ./components/where-for-dinner-crawler/where-for-dinner-crawler.yaml
     - ./groups/org.yaml
     - ./systems/where-for-dinner-system.yaml
     - ./resources/db/where-for-dinner-db-resource.yaml
