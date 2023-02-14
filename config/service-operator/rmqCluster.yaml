@@ -11,6 +11,8 @@ spec:
     - name: registries-credentials
   resources:
     requests:
-      cpu: 200m
+      cpu: 100m
+      memory: 500Mi
     limits:
-      cpu: 200m
+      cpu: 100m
+      memory: 500Mi
